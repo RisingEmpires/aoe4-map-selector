@@ -31,7 +31,7 @@ export function Index() {
 		let _array = []
 		for (let i = 0; i < amountOfMaps; i++) {
 			//@ts-ignore
-			_array.push(<img key={i} src={maps[i].value} style={{ width: '120px', padding: '0px 10px'}} />)
+			_array.push(<img key={i} src={maps[i]?.value} style={{ width: '120px', padding: '0px 10px'}} />)
 		}
 		set_images(_array)
 	}, [amountOfMaps, map1, map2, map3, map4, map5, map6, map7, map8, map9])
