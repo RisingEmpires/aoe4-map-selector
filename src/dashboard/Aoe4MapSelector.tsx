@@ -36,6 +36,7 @@ export function Aoe4MapSelector() {
 	useEffect(() => {
 		console.log(maps)
 		if (!maps) return;
+		//Should probably sort the maps so they are in alpabetical order
 		maps.forEach((element, i) => {
 			//Sometimes just fuck TypeScript.. I give up.. Ignore Errors and it still work 5head
 			var name = element.name
@@ -49,7 +50,6 @@ export function Aoe4MapSelector() {
 
 
 	//Set dropdown lists depending on how many maps
-	//TODO: Revisit this in the future, didn't work as expected
 	useEffect(() => {
 		let _array = []
 		for (let i = 0; i < amountOfMaps; i++) {
