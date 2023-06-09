@@ -76,6 +76,7 @@
     "react-dom": "*",
     "react-dropdown": "^1.11.0",
     "react-dropdown-select": "^4.9.3",
+    "react-numeric-input": "^2.2.3",
     "react-select": "^5.7.3",
     "ts-node": "*",
     "use-nodecg": "^0.4.1-2"
