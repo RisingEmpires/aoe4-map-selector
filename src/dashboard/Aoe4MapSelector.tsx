@@ -57,7 +57,8 @@ export function Aoe4MapSelector() {
 			_array.push(dropdowns[i])
 		}
 		set_mapSelections(_array)
-	}, [amountOfMaps])
+		//Need to add all the maps as dependencies because we need to rerender the dropdowns because they don't rerender themselves when in an array
+	}, [amountOfMaps, map1, map2, map3, map4, map5, map6, map7, map8, map9])
 
 	//There has to be a better way of doing this.. I'm just to stupid to figure it out
 	const handleChange1 = (selectedOption) => { set_map1(selectedOption) }
