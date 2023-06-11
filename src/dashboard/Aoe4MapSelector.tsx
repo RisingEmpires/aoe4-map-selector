@@ -36,6 +36,7 @@ export function Aoe4MapSelector() {
 	useEffect(() => {
 		console.log(maps)
 		if (!maps) return;
+		let _array = []
 		//Should probably sort the maps so they are in alpabetical order
 		maps.forEach((element, i) => {
 			//Sometimes just fuck TypeScript.. I give up.. Ignore Errors and it still work 5head
@@ -43,14 +44,19 @@ export function Aoe4MapSelector() {
 			name = name.replace(/_/g, ' ');
 			console.log(name)
 			//@ts-ignore
-			set_options(oldArray => [...oldArray, { value: element.url, label: name }]);
+			//set_options(oldArray => [...oldArray, { value: element.url, label: name }]);
+			_array.push({ value: element.url, label: name });
 		});
+		//@ts-ignore
+		_array.sort((a, b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0))
+		set_options(_array);
 		console.log(JSON.stringify(options))
 	}, [maps]);
 
 
 	//Set dropdown lists depending on how many maps
 	useEffect(() => {
+		if (options.length === 0) return;
 		let _array = []
 		for (let i = 0; i < amountOfMaps; i++) {
 			//@ts-ignore
@@ -58,7 +64,7 @@ export function Aoe4MapSelector() {
 		}
 		set_mapSelections(_array)
 		//Need to add all the maps as dependencies because we need to rerender the dropdowns because they don't rerender themselves when in an array
-	}, [amountOfMaps, map1, map2, map3, map4, map5, map6, map7, map8, map9])
+	}, [amountOfMaps, map1, map2, map3, map4, map5, map6, map7, map8, map9, options])
 
 	//There has to be a better way of doing this.. I'm just to stupid to figure it out
 	const handleChange1 = (selectedOption) => { set_map1(selectedOption) }
@@ -73,39 +79,39 @@ export function Aoe4MapSelector() {
 
 	let dropdowns = [
 		(<div><label>Map 1</label>
-			<Select options={options} onChange={handleChange1} value={map1} placeholder={'Select Map'} />
+			<Select className="mapDropdown" options={options} onChange={handleChange1} value={map1} placeholder={'Select Map'} />
 			<br></br></div>),
 
 		(<div><label>Map 2</label>
-			<Select options={options} onChange={handleChange2} value={map2} placeholder={'Select Map'} />
+			<Select className="mapDropdown" options={options} onChange={handleChange2} value={map2} placeholder={'Select Map'} />
 			<br></br></div>),
 
 		(<div><label>Map 3</label>
-			<Select options={options} onChange={handleChange3} value={map3} placeholder={'Select Map'} />
+			<Select className="mapDropdown" options={options} onChange={handleChange3} value={map3} placeholder={'Select Map'} />
 			<br></br></div>),
 
 		(<div><label>Map 4</label>
-			<Select options={options} onChange={handleChange4} value={map4} placeholder={'Select Map'} />
+			<Select className="mapDropdown" options={options} onChange={handleChange4} value={map4} placeholder={'Select Map'} />
 			<br></br></div>),
 
 		(<div><label>Map 5</label>
-			<Select options={options} onChange={handleChange5} value={map5} placeholder={'Select Map'} />
+			<Select className="mapDropdown" options={options} onChange={handleChange5} value={map5} placeholder={'Select Map'} />
 			<br></br></div>),
 
 		(<div><label>Map 6</label>
-			<Select options={options} onChange={handleChange6} value={map6} placeholder={'Select Map'} />
+			<Select className="mapDropdown" options={options} onChange={handleChange6} value={map6} placeholder={'Select Map'} />
 			<br></br></div>),
 
 		(<div><label>Map 7</label>
-			<Select options={options} onChange={handleChange7} value={map7} placeholder={'Select Map'} />
+			<Select className="mapDropdown" options={options} onChange={handleChange7} value={map7} placeholder={'Select Map'} />
 			<br></br></div>),
 
 		(<div><label>Map 8</label>
-			<Select options={options} onChange={handleChange8} value={map8} placeholder={'Select Map'} />
+			<Select className="mapDropdown" options={options} onChange={handleChange8} value={map8} placeholder={'Select Map'} />
 			<br></br></div>),
 
 		(<div><label>Map 9</label>
-			<Select options={options} onChange={handleChange9} value={map9} placeholder={'Select Map'} />
+			<Select className="mapDropdown" options={options} onChange={handleChange9} value={map9} placeholder={'Select Map'} />
 			<br></br></div>)]
 
 
@@ -115,13 +121,14 @@ export function Aoe4MapSelector() {
 
 	return (
 		<>
-			<NumericInput min={1} max={9} value={amountOfMaps} onChange={handleAmountchange} />
-			{amountOfMaps}
+			<div className='mapSelector'>
+				<a>Amount of Maps</a>
+				<NumericInput min={1} max={9} value={amountOfMaps} onChange={handleAmountchange} />
+			</div>
 
-			<br></br>
+			<br />
 
 			{mapSelections}
 		</>
 	)
-
 }
