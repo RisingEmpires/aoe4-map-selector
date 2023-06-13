@@ -42,7 +42,6 @@ export function Aoe4MapSelector() {
 			//Sometimes just fuck TypeScript.. I give up.. Ignore Errors and it still work 5head
 			var name = element.name
 			name = name.replace(/_/g, ' ');
-			console.log(name)
 			//@ts-ignore
 			//set_options(oldArray => [...oldArray, { value: element.url, label: name }]);
 			_array.push({ value: element.url, label: name });
@@ -50,7 +49,6 @@ export function Aoe4MapSelector() {
 		//@ts-ignore
 		_array.sort((a, b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0))
 		set_options(_array);
-		console.log(JSON.stringify(options))
 	}, [maps]);
 
 
@@ -122,7 +120,7 @@ export function Aoe4MapSelector() {
 	return (
 		<>
 			<div className='mapSelector'>
-				<a>Amount of Maps</a>
+				<h1>Amount of Maps</h1>
 				<NumericInput min={1} max={9} value={amountOfMaps} onChange={handleAmountchange} />
 			</div>
 

@@ -23,7 +23,7 @@
       {
         "name": "aoe4-map-selector",
         "title": "Aoe 4 Map Selector",
-        "width": 4,
+        "width": 3,
         "file": "aoe-4-map-selector.html",
         "headerColor": "#525F78"
       }
