@@ -117,8 +117,26 @@ export function Aoe4MapSelector() {
 		set_amountOfMaps(newValue)
 	}
 
+	const resetMap = (event: any) => {
+		if (event) event.preventDefault();
+		set_amountOfMaps(1)
+		set_map1({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
+		set_map2({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
+		set_map3({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
+		set_map4({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
+		set_map5({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
+		set_map6({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
+		set_map7({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
+		set_map8({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
+		set_map9({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
+	}
+
 	return (
 		<>
+			<button onClick={resetMap} className="resetButton mx-4 px-2 w-36" name="swapTeams">
+				Reset Map
+			</button>
+
 			<div className='mapSelector'>
 				<h1>Amount of Maps</h1>
 				<NumericInput min={1} max={9} value={amountOfMaps} onChange={handleAmountchange} />

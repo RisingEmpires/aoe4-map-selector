@@ -1,19 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<style>
-			body {
-				font-family: sans-serif;
-			}
 
-			.monospace {
-				font-family: monospace;
-			}
-		</style>
-	</head>
-	<body>
-		<div id="root"></div>
-		<script type="module" src="./index-bootstrap.tsx"></script>
-	</body>
+<head>
+	<meta charset="UTF-8" />
+	<style>
+		@font-face {
+			font-family: Monsterrat;
+			src: url('./Montserrat.ttf');
+		}
+
+		body {
+			font-family: Monsterrat;
+			overflow-y: hidden;
+		}
+
+		.monospace {
+			font-family: monospace;
+		}
+
+		.mapPicked {
+			width: 140px;
+			margin: 5px 0px;
+			border: 2px solid #0000;
+			border-radius: 4%;
+			background: linear-gradient(#191212, #191212) padding-box, linear-gradient(var(--angle),
+					#9c683b,
+					#FFD700) border-box;
+			animation: 8s rotate linear infinite;
+		}
+
+		.map {
+			display: flex;
+			flex-direction: column;
+			text-align: center;
+			justify-content: center;
+		}
+
+		.mapName {
+			display: none;
+			position: absolute;
+			padding-top: 100px;
+			text-align: center;
+			color: whitesmoke;
+			font-weight: bolder;
+			font-size: 1.5rem;
+			margin: auto;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="root"></div>
+	<script type="module" src="./index-bootstrap.tsx"></script>
+</body>
+
 </html>
