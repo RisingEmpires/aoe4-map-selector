@@ -4,45 +4,66 @@ import { useReplicant } from 'use-nodecg';
 interface DropdownOption {
 	value: string;
 	label: string;
+	picked: boolean;
 }
 
 
+
 export function Index() {
-	const [map1, set_map1] = useReplicant<DropdownOption>('map1', { value: '', label: '' });
-	const [map2, set_map2] = useReplicant<DropdownOption>('map2', { value: '', label: '' });
-	const [map3, set_map3] = useReplicant<DropdownOption>('map3', { value: '', label: '' });
-	const [map4, set_map4] = useReplicant<DropdownOption>('map4', { value: '', label: '' });
-	const [map5, set_map5] = useReplicant<DropdownOption>('map5', { value: '', label: '' });
-	const [map6, set_map6] = useReplicant<DropdownOption>('map6', { value: '', label: '' });
-	const [map7, set_map7] = useReplicant<DropdownOption>('map7', { value: '', label: '' });
-	const [map8, set_map8] = useReplicant<DropdownOption>('map8', { value: '', label: '' });
-	const [map9, set_map9] = useReplicant<DropdownOption>('map9', { value: '', label: '' });
-	const [amountOfMaps, set_amountOfMaps] = useReplicant<number>('amountOfMaps', 1);
 
+	const [map1, set_map1] = useReplicant<DropdownOption>('map1', { value: '', label: '', picked: false });
 
-	//This should probably just be done in the Dashboard instead of 9 different replicants
-	const maps = [map1, map2, map3, map4, map5, map6, map7, map8, map9]
+	const [leftMapPicks, set_leftMapPicks] = useReplicant<DropdownOption[]>('leftMapPicks', [{ value: '', label: '', picked: false }]);
+	const [leftMapPicksCount, set_leftMapPicksCount] = useReplicant<number>('leftMapPicksCount', 0);
 
+	const [rightMapPicks, set_rightMapPicks] = useReplicant<DropdownOption[]>('rightMapPicks', [{ value: '', label: '', picked: false }]);
+	const [rightMapPicksCount, set_rightMapPicksCount] = useReplicant<number>('rightMapPicksCount', 0);
+
+	const [updateGraphics, set_updateGraphics] = useReplicant<boolean>('updateGraphics', true);
 
 	//@ts-ignore
-	const [images, set_images] = useState([]);
+	const [leftMaps, set_leftMaps] = useState([]);
+	const [rightMaps, set_rightMaps] = useState([]);
 
 	useEffect(() => {
-		let _array = []
-		for (let i = 0; i < amountOfMaps; i++) {
+		let l_array = []
+		for (let i = 0; i < leftMapPicksCount; i++) {
 			//@ts-ignore
-			_array.push(<div className='map'><img className="mapPicked" key={i} src={maps[i]?.value} style={{ width: '140px', padding: '0px 10px' }} /><a className="mapName">{maps[i]?.label}</a></div>)
+			l_array.push(<div className='map'>
+				<img className={leftMapPicks[i]?.picked ? 'mapPicked mapPlayed' : 'mapPicked'} key={i} src={leftMapPicks[i]?.value}
+					style={{ width: '140px'}} />
+				<a className="mapName">{leftMapPicks[i]?.label}</a>
+			</div>)
 		}
-		set_images(_array)
-	}, [amountOfMaps, map1, map2, map3, map4, map5, map6, map7, map8, map9])
+		set_leftMaps(l_array)
+
+		let r_array = []
+		for (let i = 0; i < rightMapPicksCount; i++) {
+			//@ts-ignore
+			r_array.push(<div className='map'>
+				<img className={rightMapPicks[i]?.picked ? 'mapPicked mapPlayed' : 'mapPicked'} key={i} src={rightMapPicks[i]?.value}
+					style={{ width: '140px' }} />
+				<a className="mapName">{rightMapPicks[i]?.label}</a>
+			</div>)
+		}
+		set_rightMaps(r_array)
+	}, [updateGraphics])
 
 	return (
-		<>
-			<div style={{
-				position: 'absolute', top: '90%', left: '50%',
-				transform: 'translate(-50%, -50%)',
-				display: 'flex'
-			}}>{images}</div>
-		</>
+		<div className=''>
+			<div className='flex flex-col leftSide'>
+				{leftMaps}
+			</div>
+
+
+			<div className='flex flex-col middleMap'>
+				<img className="mapPicked" src={map1?.value} style={{ width: '160px'}} />
+			</div>
+
+
+			<div className='flex flex-col rightSide'>
+				{rightMaps}
+			</div>
+		</div>
 	);
 }

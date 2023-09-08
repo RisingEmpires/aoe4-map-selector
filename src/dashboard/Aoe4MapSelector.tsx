@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import Select from "react-select";
+import React, { useEffect, useState, useCallback } from 'react';
 import { useReplicant } from 'use-nodecg';
+import Select, { type SingleValue } from 'react-select';
 import * as NumericInput from "react-numeric-input";
 
 interface DropdownOption {
 	value: string;
 	label: string;
+	picked: boolean;
 }
 
 
@@ -15,22 +16,25 @@ export function Aoe4MapSelector() {
 	const [maps, set_maps] = useReplicant<Array<any>>('assets:maps', []);
 
 	//You know.. I'm starting to think me coding is not a good idea
-	const [map1, set_map1] = useReplicant<DropdownOption>('map1', { value: '', label: '' });
-	const [map2, set_map2] = useReplicant<DropdownOption>('map2', { value: '', label: '' });
-	const [map3, set_map3] = useReplicant<DropdownOption>('map3', { value: '', label: '' });
-	const [map4, set_map4] = useReplicant<DropdownOption>('map4', { value: '', label: '' });
-	const [map5, set_map5] = useReplicant<DropdownOption>('map5', { value: '', label: '' });
-	const [map6, set_map6] = useReplicant<DropdownOption>('map6', { value: '', label: '' });
-	const [map7, set_map7] = useReplicant<DropdownOption>('map7', { value: '', label: '' });
-	const [map8, set_map8] = useReplicant<DropdownOption>('map8', { value: '', label: '' });
-	const [map9, set_map9] = useReplicant<DropdownOption>('map9', { value: '', label: '' });
+	const [map1, set_map1] = useReplicant<DropdownOption>('map1', { value: '', label: '', picked: false });
 
 	const [amountOfMaps, set_amountOfMaps] = useReplicant<number>('amountOfMaps', 1);
+
+	const [leftMapPicks, set_leftMapPicks] = useReplicant<DropdownOption[]>('leftMapPicks', [{ value: '', label: '', picked: false }]);
+	const [leftMapPicksCount, set_leftMapPicksCount] = useReplicant<number>('leftMapPicksCount', 0);
+
+	const [rightMapPicks, set_rightMapPicks] = useReplicant<DropdownOption[]>('rightMapPicks', [{ value: '', label: '', picked: false }]);
+	const [rightMapPicksCount, set_rightMapPicksCount] = useReplicant<number>('rightMapPicksCount', 0);
+
+	const [updateGraphics, set_updateGraphics] = useReplicant<boolean>('updateGraphics', true);
+	const [doResetDraft, set_doResetDraft] = useReplicant<boolean>('doResetDraft', true);
 
 	//@ts-ignore
 	const [options, set_options] = useState([]);
 
 	const [mapSelections, set_mapSelections] = useState([])
+
+	const handleChange1 = (selectedOption) => { set_map1(selectedOption) }
 
 	//Set the options in the dropdown menu to avaliable maps from /assets/aoe4-map-selector/maps
 	useEffect(() => {
@@ -51,100 +55,148 @@ export function Aoe4MapSelector() {
 		set_options(_array);
 	}, [maps]);
 
+	const resetDraft = () => {
+		set_leftMapPicks([])
+		set_leftMapPicksCount(1)
+		set_leftMapPicksCount(0)
 
-	//Set dropdown lists depending on how many maps
-	useEffect(() => {
-		if (options.length === 0) return;
-		let _array = []
-		for (let i = 0; i < amountOfMaps; i++) {
-			//@ts-ignore
-			_array.push(dropdowns[i])
-		}
-		set_mapSelections(_array)
-		//Need to add all the maps as dependencies because we need to rerender the dropdowns because they don't rerender themselves when in an array
-	}, [amountOfMaps, map1, map2, map3, map4, map5, map6, map7, map8, map9, options])
+		set_rightMapPicksCount(1)
+		set_rightMapPicksCount(0)
+		set_rightMapPicks([])
 
-	//There has to be a better way of doing this.. I'm just to stupid to figure it out
-	const handleChange1 = (selectedOption) => { set_map1(selectedOption) }
-	const handleChange2 = (selectedOption) => { set_map2(selectedOption) }
-	const handleChange3 = (selectedOption) => { set_map3(selectedOption) }
-	const handleChange4 = (selectedOption) => { set_map4(selectedOption) }
-	const handleChange5 = (selectedOption) => { set_map5(selectedOption) }
-	const handleChange6 = (selectedOption) => { set_map6(selectedOption) }
-	const handleChange7 = (selectedOption) => { set_map7(selectedOption) }
-	const handleChange8 = (selectedOption) => { set_map8(selectedOption) }
-	const handleChange9 = (selectedOption) => { set_map9(selectedOption) }
+		set_map1({value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random", picked: false})
 
-	let dropdowns = [
-		(<div><label>Map 1</label>
-			<Select className="mapDropdown" options={options} onChange={handleChange1} value={map1} placeholder={'Select Map'} />
-			<br></br></div>),
+		set_updateGraphics(!updateGraphics)
 
-		(<div><label>Map 2</label>
-			<Select className="mapDropdown" options={options} onChange={handleChange2} value={map2} placeholder={'Select Map'} />
-			<br></br></div>),
-
-		(<div><label>Map 3</label>
-			<Select className="mapDropdown" options={options} onChange={handleChange3} value={map3} placeholder={'Select Map'} />
-			<br></br></div>),
-
-		(<div><label>Map 4</label>
-			<Select className="mapDropdown" options={options} onChange={handleChange4} value={map4} placeholder={'Select Map'} />
-			<br></br></div>),
-
-		(<div><label>Map 5</label>
-			<Select className="mapDropdown" options={options} onChange={handleChange5} value={map5} placeholder={'Select Map'} />
-			<br></br></div>),
-
-		(<div><label>Map 6</label>
-			<Select className="mapDropdown" options={options} onChange={handleChange6} value={map6} placeholder={'Select Map'} />
-			<br></br></div>),
-
-		(<div><label>Map 7</label>
-			<Select className="mapDropdown" options={options} onChange={handleChange7} value={map7} placeholder={'Select Map'} />
-			<br></br></div>),
-
-		(<div><label>Map 8</label>
-			<Select className="mapDropdown" options={options} onChange={handleChange8} value={map8} placeholder={'Select Map'} />
-			<br></br></div>),
-
-		(<div><label>Map 9</label>
-			<Select className="mapDropdown" options={options} onChange={handleChange9} value={map9} placeholder={'Select Map'} />
-			<br></br></div>)]
-
-
-	const handleAmountchange = (newValue) => {
-		set_amountOfMaps(newValue)
-	}
-
-	const resetMap = (event: any) => {
-		if (event) event.preventDefault();
-		set_amountOfMaps(1)
-		set_map1({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
-		set_map2({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
-		set_map3({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
-		set_map4({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
-		set_map5({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
-		set_map6({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
-		set_map7({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
-		set_map8({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
-		set_map9({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random" })
+		set_doResetDraft(!doResetDraft)
+		//for(let i = 0; i < 9; i++){}
 	}
 
 	return (
-		<>
-			<button onClick={resetMap} className="resetButton mx-4 px-2 w-36" name="swapTeams">
-				Reset Map
-			</button>
+		<div className='w-full'>
+			<div className='flex flex-row justify-between'>
+				<div className='pl-16 flex flex-col w-1/3 self-start'>
+					<h1>Left Picked Maps</h1>
+					<input
+						className='w-1/4 m-auto text-center'
+						type="number"
+						min={0}
+						max={9}
+						value={leftMapPicksCount ?? 0}
+						onChange={(event) => {
+							set_leftMapPicksCount(parseInt(event.target.value, 10));
+						}}
+					/>
 
-			<div className='mapSelector'>
-				<h1>Amount of Maps</h1>
-				<NumericInput min={1} max={9} value={amountOfMaps} onChange={handleAmountchange} />
+					{new Array(leftMapPicksCount).fill(undefined).map((_, i) => (
+						<MapDropdown key={i} maps={options} target={i} replicant={'leftMapPicks'} inValue={leftMapPicks[i]} />
+					))}
+
+				</div>
+
+				<div className='flex flex-col w-1/6'>
+					<Select className="mapDropdown" options={options} onChange={handleChange1} value={map1} placeholder={'Select Map'} />
+				</div>
+
+				<div className='pr-16 flex flex-col w-1/3 self-start'>
+					<h1>Right Picked Maps</h1>
+					<input
+						className='w-1/4 m-auto text-center'
+						type="number"
+						min={0}
+						max={9}
+						value={rightMapPicksCount ?? 0}
+						onChange={(event) => {
+							set_rightMapPicksCount(parseInt(event.target.value, 10));
+						}}
+					/>
+
+					{new Array(rightMapPicksCount).fill(undefined).map((_, i) => (
+						<MapDropdown key={i} maps={options} target={i} replicant={'rightMapPicks'} inValue={rightMapPicks[i]} />
+					))}
+
+				</div>
 			</div>
 
-			<br />
+			<div className='flex flex-col'>
+				<button onClick={resetDraft}
+					className='resetButton m-auto w-1/3'>Reset Map Draft</button>
 
-			{mapSelections}
-		</>
+				<button onClick={() => set_updateGraphics(!updateGraphics)}
+					className='updateDraft m-auto w-1/3'>Update Draft Graphics</button>
+			</div>
+
+		</div>
 	)
+}
+
+type MapDropdownProps = {
+	maps: DropdownOption[];
+	target: number;
+	replicant: string;
+	inValue: DropdownOption;
+};
+
+const MapDropdown = ({ maps, target, replicant, inValue }: MapDropdownProps) => {
+
+	const [map1, set_map1] = useReplicant<DropdownOption>('map1', { value: '', label: '', picked: false });
+	const [replicantValue, set_replicantValue] = useReplicant<DropdownOption[]>(replicant, [{ value: '', label: '', picked: false }]);
+	const [updateGraphics, set_updateGraphics] = useReplicant<boolean>('updateGraphics', true);
+
+	const handleChange = useCallback(
+		(selectedOption: SingleValue<DropdownOption>) => {
+			if (!selectedOption) return
+			const newRepValue = replicantValue.slice(0);
+			//newRepValue[target] = selectedOption;
+			newRepValue[target] = {
+				value: selectedOption.value,
+				label: selectedOption.label,
+				picked: replicantValue[target]?.picked || false
+			}
+			console.log(newRepValue[target])
+			set_replicantValue(newRepValue);
+		},
+		[replicantValue, target],
+	);
+
+	const handlePickedChange = () => {
+
+		let newRepValue = replicantValue.slice(0);
+
+		let opposite = !(replicantValue[target]?.picked)
+		newRepValue[target] = {
+			value: replicantValue[target]?.value || '',
+			label: replicantValue[target]?.label || '',
+			picked: opposite
+		}
+
+		set_replicantValue(newRepValue);
+	};
+
+	const PickMap = () => {
+		set_map1(inValue)
+
+		let newRepValue = replicantValue.slice(0);
+
+		newRepValue[target] = {
+			value: replicantValue[target]?.value || '',
+			label: replicantValue[target]?.label || '',
+			picked: true
+		}
+
+
+		set_replicantValue(newRepValue);
+
+		set_updateGraphics(!updateGraphics)
+	}
+
+	return (
+		<div className='w-full'>
+			<Select className="mapDropdown" options={maps} onChange={handleChange} value={inValue} placeholder={'Select Map'} />
+			<label>Map Picked?</label>
+			<input className='mr-4' type='checkbox' checked={inValue?.picked}
+				onChange={handlePickedChange} />
+			<button onClick={PickMap} className='pickMapButton'>Pick Map</button>
+		</div>
+	);
 }

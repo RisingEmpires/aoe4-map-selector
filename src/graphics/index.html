@@ -9,6 +9,18 @@
 			src: url('./Montserrat.ttf');
 		}
 
+				@keyframes rotate {
+			to {
+				--angle: 360deg;
+			}
+		}
+
+		@property --angle {
+			syntax: "<angle>";
+			initial-value: 0deg;
+			inherits: false;
+		}
+
 		body {
 			font-family: Monsterrat;
 			overflow-y: hidden;
@@ -46,12 +58,39 @@
 			font-size: 1.5rem;
 			margin: auto;
 		}
+
+		.mapPlayed {
+			filter: blur(1px) grayscale(.4) brightness(.4);
+		}
+		
+		.leftSide{
+			top: 60%;
+			left: 10%;
+			position: absolute;
+			transform: translate(-50%, -50%);
+		}
+
+		.rightSide{
+			top: 60%;
+			right: 10%;
+			position: absolute;
+			transform: translate(50%, -50%);
+		}
+
+		.middleMap {
+			top: 60%;
+			left: 50%;
+			position: absolute;
+			transform: translate(-50%, -50%);
+		}
+
 	</style>
 </head>
 
 <body>
 	<div id="root"></div>
 	<script type="module" src="./index-bootstrap.tsx"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
 </body>
 
 </html>
