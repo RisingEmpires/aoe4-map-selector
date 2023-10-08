@@ -29,10 +29,10 @@ export function Index() {
 		let l_array = []
 		for (let i = 0; i < leftMapPicksCount; i++) {
 			//@ts-ignore
-			l_array.push(<div className='map'>
-				<img className={leftMapPicks[i]?.picked ? 'mapPicked mapPlayed' : 'mapPicked'} key={i} src={leftMapPicks[i]?.value}
-					style={{ width: '140px'}} />
-				<a className="mapName">{leftMapPicks[i]?.label}</a>
+			l_array.push(<div className='mapSelector-map'>
+				<img className={leftMapPicks[i]?.picked ? 'mapSelector-mapPicked mapSelector-mapPlayed' : 'mapSelector-mapPicked'} key={i} src={leftMapPicks[i]?.value}
+					style={{ width: '140px' }} />
+				<a className="mapSelector-mapName">{leftMapPicks[i]?.label}</a>
 			</div>)
 		}
 		set_leftMaps(l_array)
@@ -40,28 +40,40 @@ export function Index() {
 		let r_array = []
 		for (let i = 0; i < rightMapPicksCount; i++) {
 			//@ts-ignore
-			r_array.push(<div className='map'>
-				<img className={rightMapPicks[i]?.picked ? 'mapPicked mapPlayed' : 'mapPicked'} key={i} src={rightMapPicks[i]?.value}
+			r_array.push(<div className='mapSelector-map'>
+				<img className={rightMapPicks[i]?.picked ? 'mapSelector-mapPicked mapSelector-mapPlayed' : 'mapSelector-mapPicked'} key={i} src={rightMapPicks[i]?.value}
 					style={{ width: '140px' }} />
-				<a className="mapName">{rightMapPicks[i]?.label}</a>
+				<a className="mapSelector-mapName">{rightMapPicks[i]?.label}</a>
 			</div>)
 		}
 		set_rightMaps(r_array)
 	}, [updateGraphics])
 
+	const [theme, set_theme] = useReplicant<{ value: string; label: string; }>('theme', { value: '../../../assets/nodecg-themer/themes/default.css', label: 'default' }, { namespace: 'nodecg-themer' });
+
+	const [themeDiv, set_themeDiv] = useState(<></>)
+
+	useEffect(() => {
+		console.log(theme)
+		if (!theme) return;
+		console.log(theme)
+		set_themeDiv(<link rel='stylesheet' type='text/css' href={theme.value} />)
+	}, [theme])
+
 	return (
 		<div className=''>
-			<div className='flex flex-col leftSide'>
+			{themeDiv}
+			<div className='flex flex-col mapSelector-leftSide'>
 				{leftMaps}
 			</div>
 
 
-			<div className='flex flex-col middleMap'>
-				<img className="mapPicked" src={map1?.value} style={{ width: '160px'}} />
+			<div className='flex flex-col mapSelector-middleMap'>
+				<img className="mapSelector-mapPicked" src={map1?.value}/>
 			</div>
 
 
-			<div className='flex flex-col rightSide'>
+			<div className='flex flex-col mapSelector-rightSide'>
 				{rightMaps}
 			</div>
 		</div>

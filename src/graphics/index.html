@@ -9,18 +9,6 @@
 			src: url('./Montserrat.ttf');
 		}
 
-				@keyframes rotate {
-			to {
-				--angle: 360deg;
-			}
-		}
-
-		@property --angle {
-			syntax: "<angle>";
-			initial-value: 0deg;
-			inherits: false;
-		}
-
 		body {
 			font-family: Monsterrat;
 			overflow-y: hidden;
@@ -28,60 +16,6 @@
 
 		.monospace {
 			font-family: monospace;
-		}
-
-		.mapPicked {
-			width: 140px;
-			margin: 5px 0px;
-			border: 2px solid #0000;
-			border-radius: 4%;
-			background: linear-gradient(#191212, #191212) padding-box, linear-gradient(var(--angle),
-					#9c683b,
-					#FFD700) border-box;
-			animation: 8s rotate linear infinite;
-		}
-
-		.map {
-			display: flex;
-			flex-direction: column;
-			text-align: center;
-			justify-content: center;
-		}
-
-		.mapName {
-			display: none;
-			position: absolute;
-			padding-top: 100px;
-			text-align: center;
-			color: whitesmoke;
-			font-weight: bolder;
-			font-size: 1.5rem;
-			margin: auto;
-		}
-
-		.mapPlayed {
-			filter: blur(1px) grayscale(.4) brightness(.4);
-		}
-		
-		.leftSide{
-			top: 60%;
-			left: 10%;
-			position: absolute;
-			transform: translate(-50%, -50%);
-		}
-
-		.rightSide{
-			top: 60%;
-			right: 10%;
-			position: absolute;
-			transform: translate(50%, -50%);
-		}
-
-		.middleMap {
-			top: 60%;
-			left: 50%;
-			position: absolute;
-			transform: translate(-50%, -50%);
 		}
 
 	</style>
