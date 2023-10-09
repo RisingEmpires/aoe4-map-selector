@@ -70,7 +70,7 @@ export function Aoe4MapSelector() {
 	}
 
 	return (
-		<div className='w-full'>
+		<div className='w-full p-2 mb-8'>
 			<div className='flex flex-row justify-between'>
 				<div className='pl-16 flex flex-col w-1/3 self-start'>
 					<h1>Left Picked Maps</h1>
@@ -91,8 +91,9 @@ export function Aoe4MapSelector() {
 
 				</div>
 
-				<div className='flex flex-col w-1/6'>
-					<Select className="mapDropdown" options={options} onChange={handleChange1} value={map1} placeholder={'Select Map'} />
+				<div className='flex flex-col w-1/6 items-start'>
+					<Select className="mapDropdown w-full" options={options} onChange={handleChange1} value={map1} placeholder={'Select Map'} />
+					<img src={map1.value} className='w-2/3 pt-4 pb-10 mx-auto'/>
 				</div>
 
 				<div className='pr-16 flex flex-col w-1/3 self-start'>
@@ -116,12 +117,13 @@ export function Aoe4MapSelector() {
 				</div>
 			</div>
 
-			<div className='flex flex-col'>
-				<button onClick={resetDraft}
-					className='resetButton m-auto w-1/3'>Reset Map Draft</button>
-
+			<div className='flex flex-col -m-8 pb-10'>
 				<button onClick={() => set_updateGraphics(!updateGraphics)}
-					className='updateDraft m-auto w-1/3'>Update Draft Graphics</button>
+					className='updateDraft m-auto w-1/4 mb-4'>Update Draft Graphics</button>
+
+				<button onClick={resetDraft}
+					className='resetButton m-auto w-1/4'>Reset Map Draft</button>
+
 			</div>
 
 		</div>
