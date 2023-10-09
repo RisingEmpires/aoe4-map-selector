@@ -30,8 +30,7 @@ export function Index() {
 		for (let i = 0; i < leftMapPicksCount; i++) {
 			//@ts-ignore
 			l_array.push(<div className='mapSelector-map'>
-				<img className={leftMapPicks[i]?.picked ? 'mapSelector-mapPicked mapSelector-mapPlayed' : 'mapSelector-mapPicked'} key={i} src={leftMapPicks[i]?.value}
-					style={{ width: '140px' }} />
+				<img className={leftMapPicks[i]?.picked ? 'mapSelector-mapPicked mapSelector-mapPlayed' : 'mapSelector-mapPicked'} key={i} src={leftMapPicks[i]?.value}/>
 				<a className="mapSelector-mapName">{leftMapPicks[i]?.label}</a>
 			</div>)
 		}
@@ -41,8 +40,7 @@ export function Index() {
 		for (let i = 0; i < rightMapPicksCount; i++) {
 			//@ts-ignore
 			r_array.push(<div className='mapSelector-map'>
-				<img className={rightMapPicks[i]?.picked ? 'mapSelector-mapPicked mapSelector-mapPlayed' : 'mapSelector-mapPicked'} key={i} src={rightMapPicks[i]?.value}
-					style={{ width: '140px' }} />
+				<img className={rightMapPicks[i]?.picked ? 'mapSelector-mapPicked mapSelector-mapPlayed' : 'mapSelector-mapPicked'} key={i} src={rightMapPicks[i]?.value}/>
 				<a className="mapSelector-mapName">{rightMapPicks[i]?.label}</a>
 			</div>)
 		}
