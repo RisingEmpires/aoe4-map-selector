@@ -16,12 +16,12 @@ export function Aoe4MapSelector() {
 	const [maps, set_maps] = useReplicant<Array<any>>('assets:maps', []);
 
 	//You know.. I'm starting to think me coding is not a good idea
-	const [map1, set_map1] = useReplicant<DropdownOption>('map1', { value: '', label: '', picked: false });
+	const [map1, set_map1] = useReplicant<DropdownOption>('map1', {value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random", picked: false});
 
-	const [leftMapPicks, set_leftMapPicks] = useReplicant<DropdownOption[]>('leftMapPicks', [{ value: '', label: '', picked: false }]);
+	const [leftMapPicks, set_leftMapPicks] = useReplicant<DropdownOption[]>('leftMapPicks', [{ value: '/assets/aoe4-map-selector/maps/Random.png', label: 'Random', picked: false }]);
 	const [leftMapPicksCount, set_leftMapPicksCount] = useReplicant<number>('leftMapPicksCount', 0);
 
-	const [rightMapPicks, set_rightMapPicks] = useReplicant<DropdownOption[]>('rightMapPicks', [{ value: '', label: '', picked: false }]);
+	const [rightMapPicks, set_rightMapPicks] = useReplicant<DropdownOption[]>('rightMapPicks', [{ value: '/assets/aoe4-map-selector/maps/Random.png', label: 'Random', picked: false }]);
 	const [rightMapPicksCount, set_rightMapPicksCount] = useReplicant<number>('rightMapPicksCount', 0);
 
 	const [updateGraphics, set_updateGraphics] = useReplicant<boolean>('updateGraphics', true);
@@ -93,7 +93,7 @@ export function Aoe4MapSelector() {
 
 				<div className='flex flex-col w-1/6 items-start'>
 					<Select className="mapDropdown w-full" options={options} onChange={handleChange1} value={map1} placeholder={'Select Map'} />
-					<img src={map1.value} className='w-2/3 pt-4 pb-10 mx-auto'/>
+					<img src={map1?.value} className='w-2/3 pt-4 pb-10 mx-auto'/>
 				</div>
 
 				<div className='pr-16 flex flex-col w-1/3 self-start'>
