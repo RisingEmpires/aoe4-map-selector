@@ -7,6 +7,7 @@ interface DropdownOption {
 	value: string;
 	label: string;
 	picked: boolean;
+	banned?: boolean;
 }
 
 
@@ -16,7 +17,7 @@ export function Aoe4MapSelector() {
 	const [maps, set_maps] = useReplicant<Array<any>>('assets:maps', []);
 
 	//You know.. I'm starting to think me coding is not a good idea
-	const [map1, set_map1] = useReplicant<DropdownOption>('map1', {value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random", picked: false});
+	const [map1, set_map1] = useReplicant<DropdownOption>('map1', { value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random", picked: false });
 
 	const [leftMapPicks, set_leftMapPicks] = useReplicant<DropdownOption[]>('leftMapPicks', [{ value: '/assets/aoe4-map-selector/maps/Random.png', label: 'Random', picked: false }]);
 	const [leftMapPicksCount, set_leftMapPicksCount] = useReplicant<number>('leftMapPicksCount', 0);
@@ -61,7 +62,7 @@ export function Aoe4MapSelector() {
 		set_rightMapPicksCount(0)
 		set_rightMapPicks([])
 
-		set_map1({value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random", picked: false})
+		set_map1({ value: "/assets/aoe4-map-selector/maps/Random.png", label: "Random", picked: false })
 
 		set_updateGraphics(!updateGraphics)
 
@@ -93,7 +94,7 @@ export function Aoe4MapSelector() {
 
 				<div className='flex flex-col w-1/6 items-start'>
 					<Select className="mapDropdown w-full" options={options} onChange={handleChange1} value={map1} placeholder={'Select Map'} />
-					<img src={map1?.value} className='w-2/3 pt-4 pb-10 mx-auto'/>
+					<img src={map1?.value} className='w-2/3 pt-4 pb-10 mx-auto' />
 				</div>
 
 				<div className='pr-16 flex flex-col w-1/3 self-start'>
@@ -109,8 +110,8 @@ export function Aoe4MapSelector() {
 						}}
 					/>
 
-					{new Array(rightMapPicksCount ?? 0).fill(undefined).map((_, i) => ( 
-						<MapDropdown key={i} maps={options} target={i} replicant={'rightMapPicks'} inValue={rightMapPicks} /> 
+					{new Array(rightMapPicksCount ?? 0).fill(undefined).map((_, i) => (
+						<MapDropdown key={i} maps={options} target={i} replicant={'rightMapPicks'} inValue={rightMapPicks} />
 
 					))}
 
@@ -140,12 +141,12 @@ type MapDropdownProps = {
 const MapDropdown = ({ maps, target, replicant, inValue }: MapDropdownProps) => {
 
 	const [map1, set_map1] = useReplicant<DropdownOption>('map1', { value: '', label: '', picked: false });
-	const [replicantValue, set_replicantValue] = useReplicant<DropdownOption[]>(replicant, [{ value: '', label: '', picked: false }]);
+	const [replicantValue, set_replicantValue] = useReplicant<DropdownOption[]>(replicant, [{ value: '', label: '', picked: false, banned: false }]);
 	const [updateGraphics, set_updateGraphics] = useReplicant<boolean>('updateGraphics', true);
 
 
 	//Prevent the module from crashing upon new DB
-	if(!inValue) {
+	if (!inValue) {
 		console.log("nope")
 		inValue = []
 	}
@@ -158,7 +159,8 @@ const MapDropdown = ({ maps, target, replicant, inValue }: MapDropdownProps) => 
 			newRepValue[target] = {
 				value: selectedOption.value,
 				label: selectedOption.label,
-				picked: replicantValue[target]?.picked || false
+				picked: replicantValue[target]?.picked || false,
+				banned: replicantValue[target]?.banned || false
 			}
 			console.log(newRepValue[target])
 			set_replicantValue(newRepValue);
@@ -180,6 +182,21 @@ const MapDropdown = ({ maps, target, replicant, inValue }: MapDropdownProps) => 
 		set_replicantValue(newRepValue);
 	};
 
+	const handleBannedChange = () => {
+
+		let newRepValue = replicantValue.slice(0);
+
+		let opposite = !(replicantValue[target]?.banned)
+		newRepValue[target] = {
+			value: replicantValue[target]?.value || '',
+			label: replicantValue[target]?.label || '',
+			picked: replicantValue[target]?.picked || false,
+			banned: opposite
+		}
+
+		set_replicantValue(newRepValue);
+	};
+
 	const PickMap = () => {
 		set_map1(inValue[target])
 
@@ -188,7 +205,8 @@ const MapDropdown = ({ maps, target, replicant, inValue }: MapDropdownProps) => 
 		newRepValue[target] = {
 			value: replicantValue[target]?.value || '',
 			label: replicantValue[target]?.label || '',
-			picked: true
+			picked: true,
+			banned: replicantValue[target]?.banned || false
 		}
 
 
@@ -203,6 +221,11 @@ const MapDropdown = ({ maps, target, replicant, inValue }: MapDropdownProps) => 
 			<label>Map Picked?</label>
 			<input className='mr-4' type='checkbox' checked={inValue[target]?.picked}
 				onChange={handlePickedChange} />
+				
+			<label>Map Banned?</label>
+			<input className='mr-4' type='checkbox' checked={inValue[target]?.banned}
+				onChange={handleBannedChange} />
+
 			<button onClick={PickMap} className='pickMapButton'>Pick Map</button>
 		</div>
 	);

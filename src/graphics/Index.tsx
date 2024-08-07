@@ -5,18 +5,19 @@ interface DropdownOption {
 	value: string;
 	label: string;
 	picked: boolean;
+	banned?: boolean;
 }
 
 
 
 export function Index() {
 
-	const [map1, set_map1] = useReplicant<DropdownOption>('map1', { value: '', label: '', picked: false });
+	const [map1, set_map1] = useReplicant<DropdownOption>('map1', { value: '', label: '', picked: false, banned: false });
 
-	const [leftMapPicks, set_leftMapPicks] = useReplicant<DropdownOption[]>('leftMapPicks', [{ value: '', label: '', picked: false }]);
+	const [leftMapPicks, set_leftMapPicks] = useReplicant<DropdownOption[]>('leftMapPicks', [{ value: '', label: '', picked: false, banned: false }]);
 	const [leftMapPicksCount, set_leftMapPicksCount] = useReplicant<number>('leftMapPicksCount', 0);
 
-	const [rightMapPicks, set_rightMapPicks] = useReplicant<DropdownOption[]>('rightMapPicks', [{ value: '', label: '', picked: false }]);
+	const [rightMapPicks, set_rightMapPicks] = useReplicant<DropdownOption[]>('rightMapPicks', [{ value: '', label: '', picked: false, banned: false }]);
 	const [rightMapPicksCount, set_rightMapPicksCount] = useReplicant<number>('rightMapPicksCount', 0);
 
 	const [updateGraphics, set_updateGraphics] = useReplicant<boolean>('updateGraphics', true);
@@ -30,7 +31,7 @@ export function Index() {
 		for (let i = 0; i < leftMapPicksCount; i++) {
 			//@ts-ignore
 			l_array.push(<div className='mapSelector-map'>
-				<img className={leftMapPicks[i]?.picked ? 'mapSelector-mapPicked mapSelector-mapPlayed' : 'mapSelector-mapPicked'} key={i} src={leftMapPicks[i]?.value}/>
+				<img className={`${leftMapPicks[i]?.picked ? 'mapSelector-mapPicked mapSelector-mapPlayed' : 'mapSelector-mapPicked'} ${leftMapPicks[i]?.banned ? 'mapSelector-mapBanned' : ''}`} key={i} src={leftMapPicks[i]?.value}/>
 				<a className="mapSelector-mapName">{leftMapPicks[i]?.label}</a>
 			</div>)
 		}
@@ -40,7 +41,7 @@ export function Index() {
 		for (let i = 0; i < rightMapPicksCount; i++) {
 			//@ts-ignore
 			r_array.push(<div className='mapSelector-map'>
-				<img className={rightMapPicks[i]?.picked ? 'mapSelector-mapPicked mapSelector-mapPlayed' : 'mapSelector-mapPicked'} key={i} src={rightMapPicks[i]?.value}/>
+				<img className={`${rightMapPicks[i]?.picked ? 'mapSelector-mapPicked mapSelector-mapPlayed' : 'mapSelector-mapPicked'} ${rightMapPicks[i]?.banned ? 'mapSelector-mapBanned' : ''}`} key={i} src={rightMapPicks[i]?.value}/>
 				<a className="mapSelector-mapName">{rightMapPicks[i]?.label}</a>
 			</div>)
 		}
